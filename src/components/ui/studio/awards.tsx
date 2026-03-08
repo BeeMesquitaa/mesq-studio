@@ -2,7 +2,7 @@
 import { useRef, FC, useContext, useEffect } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, Variants } from "framer-motion";
 import { TextReveal } from "@/components/common/text-reveal";
 import { LoadingContext } from "@/components/layout";
 import ParallaxMarquee from "@/components/common/parallax-text";
@@ -132,7 +132,7 @@ const Awards = () => {
             ))}
           </div>
         </div>
-          <div className={`h-screen w-full md:w-1/2 sticky top-0`}>
+        <div className={`h-screen w-full md:w-1/2 sticky top-0`}>
           <ParallaxMarquee />
         </div>
       </div>
@@ -151,11 +151,10 @@ const AwardRow: FC<
   const isInView = useInView(rowRef, {
     once: false,
     amount: 0.3,
-    margin: "0px 0px -100px 0px", // Trigger animation a bit earlier
+    margin: "0px 0px -100px 0px",
   });
 
-  // Variants for the container
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: {},
     visible: {
       transition: {
@@ -165,8 +164,7 @@ const AwardRow: FC<
     },
   };
 
-  // Variants for title animation
-  const titleVariants = {
+  const titleVariants: Variants = {
     hidden: {},
     visible: {
       transition: {
@@ -175,7 +173,7 @@ const AwardRow: FC<
     },
   };
 
-  const charVariants = {
+  const charVariants: Variants = {
     hidden: { y: 80, opacity: 0 },
     visible: {
       y: 0,
@@ -187,8 +185,7 @@ const AwardRow: FC<
     },
   };
 
-  // Variants for award items
-  const awardItemVariants = {
+  const awardItemVariants: Variants = {
     hidden: {
       opacity: 0,
       x: -30,
@@ -203,8 +200,7 @@ const AwardRow: FC<
     },
   };
 
-  // Variants for the divider line
-  const dividerVariants = {
+  const dividerVariants: Variants = {
     hidden: { scaleX: 0, originX: 0 },
     visible: {
       scaleX: 1,

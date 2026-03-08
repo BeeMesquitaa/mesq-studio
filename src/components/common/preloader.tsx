@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import gsap from "gsap";
 import { PRELOADER_IMAGES } from "@/constants/images";
 import Image from "next/image";
@@ -9,8 +9,16 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
   const digit3Ref = useRef(null);
   const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
 
+  const handleComplete = useCallback(() => {
+    onComplete();
+  }, [onComplete]);
+
   useEffect(() => {
+    const digit1 = digit1Ref.current;
+    const digit2 = digit2Ref.current;
     const digit3 = digit3Ref.current as HTMLElement | null;
+    const images = imagesRef.current;
+
     if (digit3) {
       digit3.innerHTML = "";
       for (let i = 0; i < 2; i++) {
@@ -52,7 +60,7 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
     const totalDuration = 2.5;
 
     const animateImages = () => {
-      imagesRef.current.forEach((image, index) => {
+      images.forEach((image, index) => {
         if (!image) return;
 
         const imageDelay = (index / PRELOADER_IMAGES.length) * totalDuration;
@@ -71,13 +79,9 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
         );
       });
 
-      const d1 = animateDigit(
-        digit1Ref.current as unknown as HTMLElement,
-        0.8,
-        2,
-      );
-      const d2 = animateDigit(digit2Ref.current as unknown as HTMLElement, 2.5);
-      const d3 = animateDigit(digit3Ref.current as unknown as HTMLElement, 2);
+      const d1 = animateDigit(digit1 as unknown as HTMLElement, 0.8, 2);
+      const d2 = animateDigit(digit2 as unknown as HTMLElement, 2.5);
+      const d3 = animateDigit(digit3 as unknown as HTMLElement, 2);
 
       console.log(d1, d2, d3);
 
@@ -85,7 +89,7 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
         const tl = gsap.timeline();
 
         tl.to(
-          imagesRef.current.filter(Boolean),
+          images.filter(Boolean),
           {
             clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)",
             duration: 1,
@@ -96,14 +100,14 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
         );
 
         tl.to(
-          [digit1Ref.current, digit2Ref.current, digit3Ref.current],
+          [digit1, digit2, digit3],
           {
             clipPath: "inset(100% 0% 0% 0%)",
             duration: 1,
             ease: "power2.inOut",
             onComplete: () => {
               setTimeout(() => {
-                onComplete();
+                handleComplete();
               }, 500);
             },
           },
@@ -123,7 +127,7 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
       });
     };
 
-    const imageElements = imagesRef.current.filter(Boolean);
+    const imageElements = images.filter(Boolean);
     const loadPromises = imageElements.map((img) => {
       return new Promise((resolve) => {
         if (img && img.complete) {
@@ -140,14 +144,9 @@ export const Preloader = ({ onComplete }: { onComplete: () => void }) => {
     });
 
     return () => {
-      gsap.killTweensOf([
-        digit1Ref.current,
-        digit2Ref.current,
-        digit3Ref.current,
-        imagesRef.current,
-      ]);
+      gsap.killTweensOf([digit1, digit2, digit3, images]);
     };
-  }, []);
+  }, [handleComplete]);
 
   return (
     <div className="preloader-container flex items-center justify-center w-full h-screen bg-black text-white font-anton-sc uppercase fixed overflow-hidden z-[999999]">

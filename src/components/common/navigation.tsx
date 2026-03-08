@@ -1,9 +1,6 @@
 "use client";
-import Image from "next/image";
-import logo from "@/svgs/logo.svg";
 import { FlipLink } from "./flip-link";
 import { useTransitionRouter } from "next-view-transitions";
-import Link from "next/link";
 import { pageAnimation } from "@/helpers/animation";
 
 const Navigation = ({ isHomePage = false }) => {

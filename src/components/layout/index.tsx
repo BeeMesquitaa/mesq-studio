@@ -3,7 +3,7 @@ import { ReactLenis } from "lenis/react";
 import "lenis/dist/lenis.css";
 import { FC, ReactNode, useState, createContext } from "react";
 import { Preloader } from "../common/preloader";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 
 export const LoadingContext = createContext({
   isLoading: true,
@@ -14,7 +14,7 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [animationComplete, setAnimationComplete] = useState(false);
 
-  const contentVariants = {
+  const contentVariants: Variants = {
     hidden: {
       y: 50,
       opacity: 0,
@@ -23,9 +23,8 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
       y: 0,
       opacity: 1,
       transition: {
-        duration:1,
+        duration: 1,
         ease: [0.87, 0, 0.13, 1],
-        onComplete: () => setAnimationComplete(true),
       },
     },
   };
@@ -42,6 +41,7 @@ const Layout: FC<{ children: ReactNode }> = ({ children }) => {
                 variants={contentVariants}
                 initial="hidden"
                 animate="visible"
+                onAnimationComplete={() => setAnimationComplete(true)}
               >
                 {children}
               </motion.div>

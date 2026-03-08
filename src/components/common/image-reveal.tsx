@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 interface RevealWrapperProps {
   children: React.ReactNode;
@@ -21,7 +21,7 @@ const SmallerImageBottomUpReveal = ({
   duration = 1.2,
   viewport = { once: true, margin: "-10px" },
 }: RevealWrapperProps) => {
-  const contentVariants = {
+  const contentVariants: Variants = {
     hidden: { y: 50, opacity: 0 },
     visible: {
       y: 0,
@@ -47,7 +47,6 @@ const SmallerImageBottomUpReveal = ({
   );
 };
 
-// Bottom to Up Reveal Wrapper
 const BottomUpReveal = ({
   children,
   className = "",
@@ -55,7 +54,7 @@ const BottomUpReveal = ({
   duration = 1.2,
   viewport = { once: true, margin: "-100px 0px" },
 }: RevealWrapperProps) => {
-  const contentVariants = {
+  const contentVariants: Variants = {
     hidden: { scale: 1.1 },
     visible: {
       scale: 1,
@@ -67,7 +66,7 @@ const BottomUpReveal = ({
     },
   };
 
-  const revealVariants = {
+  const revealVariants: Variants = {
     hidden: { y: "0%" },
     visible: {
       y: "-100%",
@@ -98,7 +97,6 @@ const BottomUpReveal = ({
   );
 };
 
-// Diagonal Clippath Reveal Wrapper
 const DiagonalReveal = ({
   children,
   className = "",
@@ -106,7 +104,7 @@ const DiagonalReveal = ({
   duration = 1.5,
   viewport = { once: true },
 }: RevealWrapperProps) => {
-  const variants = {
+  const variants: Variants = {
     hidden: {
       clipPath: "polygon(0 0, 0 0, 0 0, 0 0)",
     },
@@ -120,7 +118,7 @@ const DiagonalReveal = ({
     },
   };
 
-  const contentVariants = {
+  const contentVariants: Variants = {
     hidden: { scale: 1.5 },
     visible: {
       scale: 1,
@@ -148,7 +146,6 @@ const DiagonalReveal = ({
   );
 };
 
-// ClipPath Reveal Wrapper
 interface ClipPathRevealProps extends RevealWrapperProps {
   initialClipPath?: string;
   finalClipPath?: string;
@@ -167,7 +164,7 @@ const ClipPathReveal = ({
   revealMode = "content",
   viewport = { once: true, margin: "-100px 0px" },
 }: ClipPathRevealProps) => {
-  const contentVariants = {
+  const contentVariants: Variants = {
     hidden:
       revealMode === "content"
         ? {
@@ -187,7 +184,7 @@ const ClipPathReveal = ({
         : { opacity: 1 },
   };
 
-  const overlayVariants = {
+  const overlayVariants: Variants = {
     hidden:
       revealMode === "overlay"
         ? {
